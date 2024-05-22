@@ -33,7 +33,7 @@ const signup = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({
         errorMessage: "Bad Request, form fields can't be empty",
