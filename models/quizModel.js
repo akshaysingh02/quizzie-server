@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const questionSchema = require("./questionModel")
+const questionSchema = require("./questionModel");
 
 const quizSchema = new mongoose.Schema({
   refUser: {

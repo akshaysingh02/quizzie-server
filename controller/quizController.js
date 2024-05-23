@@ -89,23 +89,32 @@ const updateQuizDetailsById = async (req, res) => {
 const deleteQuiz = async (req, res) => {
   try {
     const quizId = req.params.quizId;
+    const userId = req.currentUserId;
     if (!quizId) {
       return res.status(400).json({
         errorMessage: "Bad request, can't get quizId",
       });
     }
 
-    const isQuizExist = Quiz.findOne({ _id: quizId });
-    if (!isQuizExist) {
-      return res.status(400).json({
-        errorMessage: "Bad request, can't find the quiz by id",
-      });
+    const quiz = await Quiz.findById(quizId);
+    if (!quiz) {
+      return res.status(404).json({ error: "Quiz not found" });
     }
 
-    await Quiz.deleteOne({ _id: quizId });
+    if (quiz.refUser.toString() !== userId) {
+      // Using `refUser` to check ownership
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to delete this quiz" });
+    }
+
+    await Quiz.findByIdAndDelete(quizId);
     res.json({ message: "Quiz deleted Successfully" });
   } catch (error) {
-    console.log(error);
+    onsole.error("Error deleting quiz:", error);
+    return res
+      .status(500)
+      .json({ error: "An unexpected error occurred while deleting the quiz" });
   }
 };
 
