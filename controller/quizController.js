@@ -54,11 +54,24 @@ const getQuizDetailsById = async (req, res) => {
   }
 };
 
-const getAllQuizzies = async (req,res) =>{
+const getTrendingQuizzes = async (req,res) =>{
   try {
     const activeUserId = req.params.userId || "";
-    const quizzes = await Quiz.find({refUser: activeUserId});
-    res.json({data: quizzes})
+    const quizzes = await Quiz.find({ refUser: activeUserId });
+
+    // Map the quizzes to only include the specified fields and format the createdAt date
+    const filteredQuizzes = quizzes.map(quiz => ({
+      title: quiz.title,
+      _id: quiz._id,
+      impressions: quiz.impressions,
+      createdAt: quiz.createdAt
+    }));
+
+    // Sort the quizzes by impressions in descending order
+    filteredQuizzes.sort((a, b) => b.impressions - a.impressions);
+
+    // Return the filtered and sorted quizzes
+    res.json({ data: filteredQuizzes });
   } catch (error) {
     res.status(500).send("Server Error")
   }
@@ -305,5 +318,5 @@ module.exports = {
   submitQuiz,
   getAnalyticsData,
   getQuestionAnalysis,
-  getAllQuizzies
+  getTrendingQuizzes
 };
