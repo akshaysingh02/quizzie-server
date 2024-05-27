@@ -54,6 +54,16 @@ const getQuizDetailsById = async (req, res) => {
   }
 };
 
+const getAllQuizzies = async (req,res) =>{
+  try {
+    const userId = req.currentUserId;
+    const quizzes = await Quiz.find({refUser: userId});
+    res.json({data: quizzes})
+  } catch (error) {
+    res.status(500).send("Server Error")
+  }
+}
+
 const updateQuizDetailsById = async (req, res) => {
   try {
     const quizId = req.params.quizId;
@@ -295,4 +305,5 @@ module.exports = {
   submitQuiz,
   getAnalyticsData,
   getQuestionAnalysis,
+  getAllQuizzies
 };
