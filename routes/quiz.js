@@ -9,7 +9,7 @@ router.post("/create-quiz",verifyToken,validateQuiz,quizController.createQuiz);
 router.get("/quiz-details/:quizId",verifyToken,quizController.getQuizDetailsById);
 router.put("/update/:quizId",verifyToken,quizController.updateQuizDetailsById);
 router.delete("/delete/:quizId",verifyToken,quizController.deleteQuiz);
-router.get("/get-quizzes",verifyToken,quizController.getAllQuizzies);
+router.get("/get-quizzes/:userId",verifyToken,quizController.getAllQuizzies);
 
 //quiz taking routes
 router.get("/quiz/take/:uniqueLink", quizController.getQuizForTaking);

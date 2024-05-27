@@ -56,8 +56,8 @@ const getQuizDetailsById = async (req, res) => {
 
 const getAllQuizzies = async (req,res) =>{
   try {
-    const userId = req.currentUserId;
-    const quizzes = await Quiz.find({refUser: userId});
+    const activeUserId = req.params.userId || "";
+    const quizzes = await Quiz.find({refUser: activeUserId});
     res.json({data: quizzes})
   } catch (error) {
     res.status(500).send("Server Error")
