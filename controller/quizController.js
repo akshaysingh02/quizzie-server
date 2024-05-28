@@ -76,6 +76,25 @@ const getTrendingQuizzes = async (req,res) =>{
     res.status(500).send("Server Error")
   }
 }
+const getAllQuizzes = async (req,res) =>{
+  try {
+    const activeUserId = req.params.userId || "";
+    const quizzes = await Quiz.find({ refUser: activeUserId });
+
+    // Map the quizzes to only include the specified fields and format the createdAt date
+    const filteredQuizzes = quizzes.map(quiz => ({
+      title: quiz.title,
+      _id: quiz._id,
+      impressions: quiz.impressions,
+      createdAt: quiz.createdAt,
+      uniqueLink: quiz.uniqueLink
+    }));
+
+    res.json({ data: filteredQuizzes });
+  } catch (error) {
+    res.status(500).send("Server Error")
+  }
+}
 
 const updateQuizDetailsById = async (req, res) => {
   try {
@@ -318,5 +337,6 @@ module.exports = {
   submitQuiz,
   getAnalyticsData,
   getQuestionAnalysis,
-  getTrendingQuizzes
+  getTrendingQuizzes,
+  getAllQuizzes
 };
