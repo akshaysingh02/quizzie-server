@@ -82,15 +82,15 @@ const getAllQuizzes = async (req,res) =>{
     const quizzes = await Quiz.find({ refUser: activeUserId });
 
     // Map the quizzes to only include the specified fields and format the createdAt date
-    const filteredQuizzes = quizzes.map(quiz => ({
-      title: quiz.title,
-      _id: quiz._id,
-      impressions: quiz.impressions,
-      createdAt: quiz.createdAt,
-      uniqueLink: quiz.uniqueLink
-    }));
+    // const filteredQuizzes = quizzes.map(quiz => ({
+    //   title: quiz.title,
+    //   _id: quiz._id,
+    //   impressions: quiz.impressions,
+    //   createdAt: quiz.createdAt,
+    //   uniqueLink: quiz.uniqueLink
+    // }));
 
-    res.json({ data: filteredQuizzes });
+    res.json({ data: quizzes });
   } catch (error) {
     res.status(500).send("Server Error")
   }
