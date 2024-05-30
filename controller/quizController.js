@@ -25,7 +25,7 @@ const createQuiz = async (req, res) => {
     const savedQuiz = await newQuiz.save();
     res.status(201).json({
       message: "quiz created Successfully",
-      quizLink: `${req.protocol}://${req.get("host")}/quiz/take/${uniqueLink}`,
+      quizLink: `${uniqueLink}`,
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -60,7 +60,7 @@ const getTrendingQuizzes = async (req,res) =>{
     const quizzes = await Quiz.find({ refUser: activeUserId });
 
     // Map the quizzes to only include the specified fields and format the createdAt date
-    const filteredQuizzes = quizzes.map(quiz => ({
+    const filteredQuizzes = quizzes.filter(quiz=>quiz.impressions > 10).map(quiz => ({
       title: quiz.title,
       _id: quiz._id,
       impressions: quiz.impressions,
