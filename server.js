@@ -25,6 +25,6 @@ mongoose
     console.log(`Falied to connect to database at ${process.env.PORT}`, error);
   });
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 4001, () => {
   console.log(`Backend server listening at ${process.env.PORT}`);
 });
